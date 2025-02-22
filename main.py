@@ -97,28 +97,10 @@ def generate_initial_csv_langchain(prompt_instructions: str) -> list:
 def humanize(d):
     try:
         dt = datetime.fromisoformat(d)
-        now = datetime.now(timezone.utc)
-        diff = now - dt.replace(tzinfo=timezone.utc)
-        
-        seconds = diff.total_seconds()
-        
-        if seconds < 60:
-            return 'just now'
-        elif seconds < 3600:
-            minutes = int(seconds / 60)
-            return f'{minutes} minute{"s" if minutes != 1 else ""} ago'
-        elif seconds < 86400:
-            hours = int(seconds / 3600)
-            return f'{hours} hour{"s" if hours != 1 else ""} ago'
-        elif seconds < 2592000:  # 30 days
-            days = int(seconds / 86400)
-            return f'{days} day{"s" if days != 1 else ""} ago'
-        elif seconds < 31536000:  # 365 days
-            months = int(seconds / 2592000)
-            return f'{months} month{"s" if months != 1 else ""} ago'
-        else:
-            years = int(seconds / 31536000)
-            return f'{years} year{"s" if years != 1 else ""} ago'
+        # Format the date into a human-readable string
+        return dt.strftime("%A, %d{} of %B, %Y, %I:%M%p").format(
+            "th" if 11 <= dt.day <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(dt.day % 10, "th")
+        )
     except ValueError:
         pass
 
