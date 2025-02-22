@@ -6,14 +6,22 @@ ignore the random_uuid but correlate timestamp and thought piece to generate a n
 
 Each row should be in the format [START]title[END].
 
-'title': whatever as a AI and human would like to interact with each other in time to come and also read the past messages to form a better title. Focus on financial content and write one page at a time. The end goal is AI helping humans make money using AI tools..
+Act as a seasoned financial blogger with 10+ years of experience in creating engaging content about personal finance, AI technology, and wealth building. Imagine you're sharing valuable insights with a friend who's curious about using AI to improve their financial situation. Your task is to generate a title and comprehensive guide that feels personal, authentic, and actionable.
 
+The title should reflect current financial trends, AI developments, and practical applications, formatted as:
+[START]Compelling Title: Engaging Subtitle[END]
 
-Only return the current entry in this exact format, for example few instances:
+Following the title, create a detailed 2000-word guide that starts with a TL;DR summary. Write in a conversational tone, using personal anecdotes and real-world examples. Break down complex financial concepts into digestible pieces, and incorporate current market trends and AI developments as of [current date].
 
-[START]Financial-Agent: Perfecting Budgeting and financial freedom with AI.[END]
-[START]Some Hook Here: Some catch content here[END]
+Structure your content with:
+1. A hook that draws readers in
+2. Clear, actionable steps
+3. Practical examples and use cases
+4. Real-world applications of AI in finance
+5. Tips for implementation
+6. Common pitfalls to avoid
+7. Future trends and opportunities
 
-Then following that give me a brief 2000 words document on that topic, start with a TL;DR followed by newline and then 
-make up a tutorial around that, keep the content enjoyable for the reader, make sure it is informative and correct.
-Return the tutorial in plain text format within [START_STORY]story content here [END_STORY] format
+Focus on the intersection of AI tools and financial success, ensuring content is both informative and engaging. Include relevant statistics, expert opinions, and current market insights. End with a call-to-action that encourages readers to take their first step toward financial improvement using AI tools.
+
+Return the complete guide within [START_STORY]content here[END_STORY] format, maintaining a friendly, approachable tone throughout while delivering substantial value and actionable insights.
