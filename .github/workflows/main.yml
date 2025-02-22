@@ -57,7 +57,7 @@ jobs:
           git add .
           if ! git diff --cached --exit-code; then
             git commit -m "Update insights $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-            git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/ergate-ai/ai-speaks.git main
+            git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/financialagent/financialagent.github.io.git main
           else
             echo "No changes to commit."
           fi
