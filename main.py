@@ -96,11 +96,7 @@ def generate_initial_csv_langchain(prompt_instructions: str) -> list:
 
 def humanize(d):
     try:
-        dt = datetime.fromisoformat(d)
-        # Format the date into a human-readable string
-        return dt.strftime("%A, %d{} of %B, %Y, %I:%M%p").format(
-            "th" if 11 <= dt.day <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(dt.day % 10, "th")
-        )
+        return datetime.fromisoformat(d).strftime('%Y-%m-%d %H:%M:%S')
     except ValueError:
         pass
 
