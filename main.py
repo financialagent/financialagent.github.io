@@ -43,14 +43,53 @@ class MyOllamaLLM(OllamaLLM):
         return full_text
 
 
-def extract_csv_line(response_text: str) -> str:
+def extract_csv_line(response_text: str) -> tuple:
     pattern = r"\[START\](.*?)\[END\]"
     match = re.search(pattern, response_text, re.DOTALL)
-    if match:
-        extracted = match.group(1).strip()
-        current_timestamp = datetime.now().isoformat()
-        return current_timestamp, extracted
-    return None
+    if not match:
+        print("No [START][END] tags found in response:")
+        print(response_text[:200] + "...")  # Print first 200 chars for debugging
+        return None
+    
+    extracted = match.group(1).strip()
+    if not extracted:
+        print("Empty content between [START][END] tags")
+        return None
+        
+    current_timestamp = datetime.now().isoformat()
+    return (current_timestamp, extracted)
+
+def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> tuple:
+    llm = MyOllamaLLM(model=MODEL_NAME)
+    current_csv_str = "\n".join(existing_csv)
+    prompt_template = PromptTemplate(
+        input_variables=["existing_csv"],
+        template=(
+            "Given the following CSV mind entries (each line is in the format [START]timestamp,title[END]):\n\n"
+            "{existing_csv}\n\n"
+            f"{prompt_instructions}\n\n"
+            "Important: Your response MUST include content wrapped in [START][END] tags and [START_STORY][END_STORY] tags."
+        ),
+    )
+    formatted_prompt = prompt_template.format(existing_csv=current_csv_str)
+    response = llm._call(formatted_prompt)
+    print("Extended CSV response:", response)
+    
+    csv_result = extract_csv_line(response)
+    if csv_result is None:
+        print("Failed to extract CSV line from response")
+        return None, None
+        
+    timestamp, csv_line = csv_result
+    story = extract_story(response)
+    if not story:
+        print("Failed to extract story from response")
+        return None, None
+
+    return (
+        f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
+        f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
+    )
 
 
 def extract_story(response_text: str) -> str:
@@ -88,7 +127,7 @@ def generate_initial_csv_langchain(prompt_instructions: str) -> list:
     if csv_line and story:
         return (
             f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-            f"Title: {csv_line}\n\Date: {humanize(timestamp)}\n\n{story}",
+            f"Title: {csv_line}\n Date: {humanize(timestamp)}\n\n{story}",
         )
 
 
@@ -98,38 +137,6 @@ def humanize(d):
     except ValueError:
         pass
 
-
-def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> tuple:
-    llm = MyOllamaLLM(model=MODEL_NAME)
-    current_csv_str = "\n".join(existing_csv)
-    prompt_template = PromptTemplate(
-        input_variables=["existing_csv"],
-        template=(
-            "Given the following CSV mind entries (each line is in the format [START]timestamp,title[END]):\n\n"
-            "{existing_csv}\n\n"
-            f"{prompt_instructions}"
-        ),
-    )
-    formatted_prompt = prompt_template.format(existing_csv=current_csv_str)
-    response = llm._call(formatted_prompt)
-    print("Extended CSV response:", response)
-    
-    # Add validation and error handling
-    csv_result = extract_csv_line(response)
-    if not csv_result:
-        print("Failed to extract CSV line from response")
-        return None, None
-        
-    timestamp, csv_line = csv_result
-    story = extract_story(response)
-    if not story:
-        print("Failed to extract story from response")
-        return None, None
-
-    return (
-        f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-        f"Title: {csv_line}\n\Date: {humanize(timestamp)}\n\n{story}",
-    )
 
 def update_db():
     prompt_instructions = read_prompt()
