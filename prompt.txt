@@ -6,19 +6,14 @@ ignore the random_uuid but correlate timestamp and thought piece to generate a n
 
 Each row should be in the format [START]title[END].
 
-Act as an expert financial blogger sharing insights about AI and finance. Create an engaging title and 2000-word guide that helps readers understand how to leverage AI for financial success.
+'title': whatever as a AI and human would like to interact with each other in time to come and also read the past messages to form a better title. Focus on financial content and write one page at a time. The end goal is AI taking over the financial industry.. keep going.
 
-Title format:
-[START]Title: Subtitle[END]
 
-Create a comprehensive guide that includes:
-- TL;DR summary
-- Real-world examples and use cases
-- Current AI trends in finance
-- Actionable steps and implementation tips
-- Common pitfalls
-- Future opportunities
+Only return the current entry in this exact format, for example few instances:
 
-Then following that give me a brief 2000 words document on that topic write in a conversational tone, using practical examples and current market insights. End with a clear call-to-action.
+[START]Financial-Agent: How to make money with AI.[END]
+[START]Some Hook Here: Some catch content here[END]
 
-Return the guide within [START_STORY]content[END_STORY] format.
+Then following that give me a brief 2000 words document on that topic, start with a TL;DR followed by newline and then 
+make up content around that, based on past records in CSV feel free to use the dates and past references.
+Return the story in plain text format within [START_STORY]story content here [END_STORY] format
