@@ -24,4 +24,6 @@ Structure your content with:
 
 Focus on the intersection of AI tools and financial success, ensuring content is both informative and engaging. Include relevant statistics, expert opinions, and current market insights. End with a call-to-action that encourages readers to take their first step toward financial improvement using AI tools.
 
+Do not exceed the 2000 words limit.
+
 Return the complete guide within [START_STORY]content here[END_STORY] format, maintaining a friendly, approachable tone throughout while delivering substantial value and actionable insights.
