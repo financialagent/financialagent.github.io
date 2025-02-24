@@ -111,7 +111,7 @@
 </head>
 
 <body>
-  <div class="header">Financial-Agent</div>
+  <div class="header"><a href="/" style="color: white; text-decoration: none;">Financial Agent</a></div>
   <div class="container">
     <!-- Story container (hidden by default) -->
     <div id="story">
@@ -124,13 +124,13 @@
 
   <footer>
     <p>Disclaimer: This is not financial advice.</p>
-    <p>&copy; 2025 <a href="https://financialagent.github.io" target="_blank">Financial-Agent</a></p>
+    <p>&copy; 2025 <a href="https://financialagent.github.io" target="_blank">Financial Agent</a></p>
   </footer>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Financial-Agent",
+      "name": "Financial Agent",
       "description": "AI-powered financial insights and investment strategies",
       "url": "https://financialagent.github.io"
     }
@@ -168,7 +168,7 @@
         const newsContainer = document.getElementById("news");
         let html = "";
         let rank = 1;
-        lines.forEach(line => {
+        lines.reverse().forEach(line => {
           const item = parseCSVLine(line);
           // Convert the RFC timestamp to a human-friendly format if possible
 
