@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Expert insights on AI-powered financial strategies, investment tips, and wealth building techniques">
-  <meta name="keywords" content="AI finance, financial technology, investment strategies, wealth management, financial advice">
+  <meta name="description"
+    content="Expert insights on AI-powered financial strategies, investment tips, and wealth building techniques">
+  <meta name="keywords"
+    content="AI finance, financial technology, investment strategies, wealth management, financial advice">
   <meta name="author" content="Financial Agent">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://financialagent.github.io" />
@@ -17,6 +20,7 @@
       margin: 0;
       padding: 0;
     }
+
     .header {
       background-color: #12903a;
       color: #fff;
@@ -25,29 +29,35 @@
       font-size: 24px;
       font-weight: bold;
     }
+
     .container {
       width: 90%;
       max-width: 800px;
       margin: 20px auto;
     }
+
     .news-item {
       padding: 8px 0;
       border-bottom: 1px solid #e0e0e0;
     }
+
     .news-item a {
       color: #000;
       text-decoration: none;
       font-size: 16px;
       cursor: pointer;
     }
+
     .news-item a:hover {
       text-decoration: underline;
     }
+
     .subtext {
       margin-top: 4px;
       color: #828282;
       font-size: 12px;
     }
+
     /* Story container styling */
     #story {
       display: none;
@@ -58,6 +68,7 @@
       position: relative;
       height: auto;
     }
+
     #close-story {
       position: absolute;
       top: 10px;
@@ -69,6 +80,7 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     #story-content {
       margin-top: 40px;
       white-space: pre-wrap;
@@ -76,6 +88,7 @@
       overflow: auto;
       line-height: 2rem;
     }
+
     footer {
       text-align: center;
       padding: 10px 0;
@@ -84,42 +97,42 @@
       border-top: 1px solid #e0e0e0;
       margin-top: 20px;
     }
+
     footer a {
       color: #828282;
       text-decoration: none;
     }
+
     footer a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
-  <header class="header">
-    <h1>Financial-Agent</h1>
-  </header>
-  <main class="container">
+  <div class="header">Financial-Agent</div>
+  <div class="container">
     <!-- Story container (hidden by default) -->
-    <article id="story">
-      <button id="close-story" aria-label="Close story">X</button>
+    <div id="story">
+      <button id="close-story">X</button>
       <div id="story-content"></div>
-    </article>
+    </div>
     <!-- News list container -->
-    <section id="news"></section>
-  </main>
-  
+    <div id="news"></div>
+  </div>
+
   <footer>
     <p>Disclaimer: This is not financial advice.</p>
-    <p>&copy; 2025 <a href="https://financialagent.github.io" target="_blank" rel="noopener">Financial-Agent</a></p>
+    <p>&copy; 2025 <a href="https://financialagent.github.io" target="_blank">Financial-Agent</a></p>
   </footer>
-
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Financial-Agent",
-    "description": "AI-powered financial insights and investment strategies",
-    "url": "https://financialagent.github.io"
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Financial-Agent",
+      "description": "AI-powered financial insights and investment strategies",
+      "url": "https://financialagent.github.io"
+    }
   </script>
 
   <script src="./inc.js"></script>
@@ -161,13 +174,7 @@
           html += '<div class="news-item">';
           html += '<span>' + rank + '. </span>';
           // The anchor uses a data-uuid attribute for fetching the story.
-          // Modify the news item creation to use article elements
-          html += '<article class="news-item">';
-          html += '<h2 class="rank">' + rank + '. </h2>';
           html += '<a href="#" data-uuid="' + item.uuid + '">' + item.heading + '</a>';
-          html += '<div class="subtext">Published ' + timeAgo(item.timestamp) + '</div>';
-          html += '</article>';
-          
           html += '<div class="subtext">' + timeAgo(item.timestamp) + '</div>';
           html += '</div>';
           rank++;
@@ -176,7 +183,7 @@
 
         // Add click event listeners to each story link
         document.querySelectorAll('.news-item a').forEach(link => {
-          link.addEventListener('click', function(e) {
+          link.addEventListener('click', function (e) {
             e.preventDefault();
             const uuid = this.getAttribute('data-uuid');
             // Fetch the story text from /mind/stories/{uuid}.txt
@@ -206,10 +213,11 @@
       });
 
     // When the user clicks the close button, hide the story view and show the news list again.
-    document.getElementById("close-story").addEventListener("click", function() {
+    document.getElementById("close-story").addEventListener("click", function () {
       document.getElementById("story").style.display = "none";
       document.getElementById("news").style.display = "block";
     });
   </script>
 </body>
+
 </html>
