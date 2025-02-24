@@ -48,9 +48,7 @@ def extract_csv_line(response_text: str) -> str:
     match = re.search(pattern, response_text, re.DOTALL)
     if match:
         extracted = match.group(1).strip()
-        current_timestamp = (
-            datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-        )
+        current_timestamp = datetime.now().isoformat()
         return current_timestamp, extracted
     return None
 
@@ -90,7 +88,7 @@ def generate_initial_csv_langchain(prompt_instructions: str) -> list:
     if csv_line and story:
         return (
             f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-            f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
+            f"Title: {csv_line}\n\Date: {humanize(timestamp)}\n\n{story}",
         )
 
 
@@ -130,7 +128,7 @@ def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> tuple:
 
     return (
         f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-        f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
+        f"Title: {csv_line}\n\Date: {humanize(timestamp)}\n\n{story}",
     )
 
 def update_db():
