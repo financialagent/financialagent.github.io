@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 
 SESSION_ID = uuid.uuid4()
 
-MODEL_NAME = "qwen2.5-coder:7b"
+MODEL_NAME = "mistral"
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
 
 PROMPT_FILE = "prompt.txt"
@@ -88,7 +88,7 @@ def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> tuple:
 
     return (
         f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-        f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
+        f"Title: {csv_line}\n\nDate: {humanize(timestamp)}\n\n{story}",
     )
 
 
