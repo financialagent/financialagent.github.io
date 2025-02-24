@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 
 SESSION_ID = uuid.uuid4()
 
-MODEL_NAME = "mistral"
+MODEL_NAME = "qwen2.5-coder:7b"
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
 
 PROMPT_FILE = "prompt.txt"
@@ -105,7 +105,7 @@ def humanize(d):
         pass
 
 
-def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> list:
+def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> tuple:
     llm = MyOllamaLLM(model=MODEL_NAME)
     current_csv_str = "\n".join(existing_csv)
     prompt_template = PromptTemplate(
@@ -119,31 +119,50 @@ def extend_csv_langchain(existing_csv: list, prompt_instructions: str) -> list:
     formatted_prompt = prompt_template.format(existing_csv=current_csv_str)
     response = llm._call(formatted_prompt)
     print("Extended CSV response:", response)
-    timestamp, csv_line = extract_csv_line(response)
+    
+    # Add validation and error handling
+    csv_result = extract_csv_line(response)
+    if not csv_result:
+        print("Failed to extract CSV line from response")
+        return None, None
+        
+    timestamp, csv_line = csv_result
     story = extract_story(response)
+    if not story:
+        print("Failed to extract story from response")
+        return None, None
 
-    if csv_line and story:
-        return (
-            f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
-            f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
-        )
-
+    return (
+        f"{humanize(timestamp)},{SESSION_ID},{csv_line}",
+        f"Title: {csv_line}\n\nGenerated on: {humanize(timestamp)}\n\n{story}",
+    )
 
 def update_db():
     prompt_instructions = read_prompt()
     if not prompt_instructions:
-        return
+        print("No prompt instructions found")
+        return False
 
     if os.path.exists(DB_FILE):
         try:
             with open(DB_FILE, "r") as f:
                 existing_data = [line.strip() for line in f if line.strip()]
-        except Exception:
+        except Exception as e:
+            print(f"Error reading DB file: {e}")
             existing_data = []
+            
         mind, story = extend_csv_langchain(existing_data, prompt_instructions)
+        if mind is None or story is None:
+            print("Failed to generate new content")
+            return False
+            
         updated_data = existing_data + [mind]
     else:
         mind, story = generate_initial_csv_langchain(prompt_instructions)
+        if mind is None or story is None:
+            print("Failed to generate initial content")
+            return False
+            
         updated_data = [mind]
 
 
